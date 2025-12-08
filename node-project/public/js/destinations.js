@@ -21,7 +21,8 @@ async function details() {
 
     <section class="about">
         <h2>About this stay</h2>
-        <p class="yet">${data.description}</p>
+        <p class="yet">Mumbai is one of the most beautiful places in India.
+        Many great locations of India are present her including Gateway of India, Marine Drive etc.</p>
     </section>`;
 
     data.hotels.forEach((element) => {

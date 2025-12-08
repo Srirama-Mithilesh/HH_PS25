@@ -6,6 +6,8 @@
   <title>HorizonHaven</title>
   <link rel="stylesheet" href="./css/dashboard.css" />
   <link rel="stylesheet" href="./css/navbar.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
 </head>
 <body>
   <!-- Navbar -->
@@ -15,10 +17,10 @@
     <!-- Auth area: JS will replace content here when user is logged in -->
     <div class="nav-links" id="auth-area">
       <!-- Default guest state -->
-      <a href="login.html" id="List">List your property</a>
+      <!-- <a href="login.html" id="List">List your property</a>
       <button class="login-btn" onclick="window.location.href='login.html'">
         Log in / Sign up
-      </button>
+      </button> -->
     </div>
   </nav>
 
@@ -65,6 +67,8 @@
   <section class="destinations" id="Destination">
     <h2>Popular Destinations</h2>
     <!-- Cards will be injected here by JS -->
+     <button class="scroll-left">&#8249;</button>
+     <button class="scroll-right">&#8250;</button>
   </section>
 
   <!-- Search Results (dynamic from backend) -->
@@ -73,7 +77,9 @@
     <p class="results-subtitle" id="results-subtitle">
       Use the search box above to find stays.
     </p>
-    <div class="results-grid" id="results-grid"></div>
+      <div class="results-box">
+    <div class="results-grid" id="results-grid"><div class="results-subtitle"><p>Your search results will appear here.</p></div></div>
+    </div>
   </section>
 
   <script src="./js/dashboard.js"></script>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Room Booking</title>
+    <link rel="stylesheet" href="./css/booking.css">
+</head>
+<body>
+
+<header class="header">
+    <a href="dashboard.html" class="logo">Horizon<span>Haven</span></a>
+</header>
+
+<section class="booking-wrapper">
+
+    <!-- Left section: Room images -->
+    <div class="room-gallery" id ="roomGallery">
+        <!-- Images will load from Supabase dynamically -->
+        <img id="img1" class="gallery-img active">
+        <img id="img2" class="gallery-img">
+        <img id="img3" class="gallery-img">
+
+        <div class="gallery-controls">
+            <button id="prevBtn">‹</button>
+            <button id="nextBtn">›</button>
+
+        </div>
+    </div>
+
+    <!-- Right section: Booking Form -->
+    <div class="booking-info">
+
+        <h1 id="hotelName"></h1>
+
+        <div class="input-group">
+            <label>Room Type</label>
+            <select id="roomType">
+                <option disabled selected>Select room type</option>
+            </select>
+        </div>
+
+        <div class="room-price-box">
+            <p>Price: <span id="priceDisplay">₹ 0</span> / night</p>
+        </div>
+
+        <div class="input-row">
+            <div class="input-group">
+                <label>Check-in</label>
+                <input type="date" id="checkin">
+            </div>
+
+            <div class="input-group">
+                <label>Check-out</label>
+                <input type="date" id="checkout">
+            </div>
+        </div>
+
+        <div class="input-group">
+            <label>Guests</label>
+            <input type="number" id="guests" min="1" value="1">
+        </div>
+
+        <div class="input-group">
+            <label>Payment Mode</label>
+            <select id="payment">
+                <option disabled selected>Select payment method</option>
+                <option value="pay_on_arrival">Pay On Arrival</option>
+            </select>
+        </div>
+
+        <button class="book-btn" id="confirmBtn">Confirm Booking</button>
+
+    </div>
+    <!-- Booking Success Modal -->
+<div id="bookingModal" class="modal">
+  <div class="modal-content">
+    <span id="closeModal" class="close">&times;</span>
+    <h2>Booking Successful!</h2>
+    <p>Your room has been booked successfully.</p>
+    <p>You need to pay for the room(s) on arrival</p>
+    <button id="okBtn">OK</button>
+  </div>
+</div>
+
+</section>
+
+<!-- <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script> -->
+<script type="module" src="./js/booking.js"></script>
+
+<!-- <script src="./js/booking.js"></script> -->
+
+</body>
+</html>

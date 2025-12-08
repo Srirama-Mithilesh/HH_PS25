@@ -7,3 +7,4 @@ supabase
 google-generativeai
 requests
 python-multipart     # (only needed if FastAPI ever handles file uploads)
+watchdog[watchmedo]

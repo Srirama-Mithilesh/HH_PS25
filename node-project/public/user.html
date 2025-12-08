@@ -6,6 +6,7 @@
     <title>User Profile | HorizonHaven</title>
     <link rel="stylesheet" href="css/user.css">
     <link rel="stylesheet" href="./css/navbar.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
     
@@ -23,6 +24,12 @@
         </button>
         </div>
     </nav>
+
+    <!-- Subtle background dots -->
+    <div class="dotted-background"></div>
+
+    <!-- Cover Photo -->
+    <div class="profile-cover"></div>
     
     <!-- User Profile Section -->
     <div class="profile-container">
@@ -55,20 +62,9 @@
     
     <!-- Booking History Section -->
 
-    <div class="section">
+    <div class="section" id="section">
         <h2>Your Recent Bookings</h2>
-        <div class="booking-card">
-            <p><strong>🏨 Hotel:</strong> The Royal Palace, Jaipur</p>
-            <p><strong>📅 Stay:</strong> 12 Feb 2025 - 15 Feb 2025</p>
-            <p><strong>👤 Guests:</strong> 2 Adults</p>
-            <button class="view-btn">View Details</button>
-        </div>
-        <div class="booking-card">
-            <p><strong>🏨 Hotel:</strong> Lakeside Resort, Kerala</p>
-            <p><strong>📅 Stay:</strong> 20 Mar 2025 - 23 Mar 2025</p>
-            <p><strong>👤 Guests:</strong> 3 Adults</p>
-            <button class="view-btn">View Details</button>
-        </div>
+        <!-- JS will handle this -->
     </div>
 
     <script src="js/navbar.js"></script>

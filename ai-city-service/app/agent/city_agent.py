@@ -66,13 +66,15 @@ class CityDescriptionAgent:
 
         # ---------- 1️⃣ TRY PEXELS FIRST ----------
         try:
+            query = f"{city} skyline, famous landmarks, scenic landscape, travel photography, cityscape, daytime, vibrant, high-resolution"
+
             pexels_url = (
-                f"https://api.pexels.com/v1/search?query={city}"
-                f"&orientation=landscape&per_page=5"
+                f"https://api.pexels.com/v1/search?query={query}&orientation=landscape&per_page=5"
             )
+
             headers = {"Authorization": self.pexels_api_key}
 
-            resp = requests.get(pexels_url, headers=headers, timeout=5)
+            resp = requests.get(pexels_url, headers=headers, timeout=20)
 
             if resp.status_code == 200:
                 data = resp.json()

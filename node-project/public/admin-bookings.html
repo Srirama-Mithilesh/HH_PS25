@@ -3,20 +3,49 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Bookings | Horizon Admin</title>
+    <title>Bookings | Admin</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="css/navbar.css">
 </head>
 <body>
-    <nav class="sidebar">
-        <div class="brand">Horizon<span>Admin</span></div>
-        <div class="nav">
-            <a href="/" class="nav-link">Dashboard</a>
-            <a href="/properties" class="nav-link">Properties</a>
-            <a href="/bookings" class="nav-link active">Bookings</a>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <a href="dashboard.html" class="logo">Horizon<span>Haven</span></a>
+
+        <!-- Auth area: JS will replace content here when user is logged in -->
+        <div class="nav-links" id="auth-area">
+        <!-- Default guest state -->
+        <a href="login.html" id="List">List your property</a>
+        <button class="login-btn" onclick="window.location.href='login.html'">
+            Log in / Sign up
+        </button>
         </div>
-        <div class="logout"><a href="#">Log Out</a></div>
     </nav>
+
+    <nav class="sidebar">
+        <div class="nav">
+            <a href="/admin.html" class="nav-link">
+                <!-- <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg> -->
+                Dashboard
+            </a>
+            <a href="/properties.html" class="nav-link">
+                <!-- <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg> -->
+                Properties
+            </a>
+            <a href="/admin-bookings.html" class="nav-link active">
+                <!-- <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg> -->
+                Bookings
+            </a>
+        </div>
+        <div class="logout">
+            <a href="#">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+                Log Out
+            </a>
+        </div>
+    </nav>
+
 
     <main class="main">
         <header class="header">
@@ -28,10 +57,10 @@
             <table>
                 <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>Guest Name</th>
+                        <th>Booking ID</th>
                         <th>Property</th>
-                        <th>Date</th>
+                        <th>Check In Date</th>
+                        <th>Check Out Date</th>
                         <th>Amount</th>
                         <th>Status</th>
                     </tr>
@@ -43,9 +72,7 @@
         </div>
     </main>
 
-    <script type="module" src="js/app.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', loadBookings);
-    </script>
+    <script type="module" src="js/admin-booking.js"></script>
+    <script type="module" src="js/navbar.js"></script>
 </body>
 </html>
