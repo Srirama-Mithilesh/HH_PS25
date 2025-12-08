@@ -6,6 +6,11 @@ document.addEventListener('DOMContentLoaded', () => {
     window.lucide.createIcons();
   }
 
+  // added this 2 lines fro redirection
+  const urlParams = new URLSearchParams(window.location.search);
+  const redirectTo = urlParams.get("redirect"); 
+
+
   const form = document.getElementById('loginForm');
   const submitBtn = document.getElementById('submitBtn');
   const successModal = document.getElementById('successModal');
@@ -27,7 +32,15 @@ document.addEventListener('DOMContentLoaded', () => {
     })
       .then((res) => {
         if (res.ok) {
-          window.location.href = '/dashboard.html';
+          const params = new URLSearchParams(window.location.search);
+          const redirectUrl = params.get("redirect");
+
+          if (redirectUrl) {
+            window.location.href = redirectTo; 
+          } else {
+            window.location.href = '/dashboard.html';
+          }
+
         } else {
           localStorage.removeItem('token');
         }
@@ -129,7 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const data = await res.json().catch(() => ({}));
 
       if (!res.ok) {
-        alert(data.message || 'Login failed');
+        alert(data.message || 'Login failed');  
         setButtonLoading(submitBtn, false, 'Sign In');
         return;
       }
@@ -144,19 +157,52 @@ document.addEventListener('DOMContentLoaded', () => {
       if (successModal) {
         successModal.classList.add('active');
       }
-      setTimeout(() => {
-        if (successModal) {
-          successModal.classList.remove('active');
-        }
-        setButtonLoading(submitBtn, false, 'Sign In');
-        window.location.href = '/dashboard.html';
-      }, 1500);
+
+      // setTimeout(() => {
+      //   if (successModal) {
+      //     successModal.classList.remove('active');
+      //   }
+      //   setButtonLoading(submitBtn, false, 'Sign In');
+      //   window.location.href = '/dashboard.html';
+      // }, 1500);
+      
+        // redirect to current page instead of always to dashboard.html
+        setTimeout(() => {
+          if (successModal) {
+            successModal.classList.remove('active');
+          }
+          setButtonLoading(submitBtn, false, 'Sign In');
+
+          if (redirectTo) {
+            window.location.href = redirectTo;
+          } else {
+            window.location.href = '/dashboard.html';
+          }
+        }, 1500);
+
     } catch (err) {
       console.error(err);
       alert('Something went wrong. Please try again.');
       setButtonLoading(submitBtn, false, 'Sign In');
     }
   });
+
+    // Go back to current page if close button is clicked instead of dashboard.html
+    const closeBtn = document.getElementById("closeLoginBtn");
+    if (!closeBtn) return;
+
+    closeBtn.addEventListener("click", () => {
+      const params = new URLSearchParams(window.location.search);
+      const redirectUrl = params.get("redirect");
+
+      if (redirectUrl) {
+        // If login was opened with redirect, go back to that page
+        window.location.href = redirectTo;
+      } else {
+        // If login opened normally, just go back
+        window.history.back();
+      }
+    });
 
   // --- Google Login placeholder ---
   if (googleLoginBtn) {

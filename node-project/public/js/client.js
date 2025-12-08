@@ -42,10 +42,6 @@ function switchView(viewName) {
 async function handleSubmit(event, type) {
     event.preventDefault();
 
-    const btn = document.getElementById('Publish_casual');
-    btn.disabled = true;
-    btn.innerText = 'Publishing . . .';
-
     const form = event.target;
     const formData = new FormData(form);
 
@@ -65,33 +61,22 @@ async function handleSubmit(event, type) {
             ? "/api/listings/casual"
             : "/api/listings/professional";
 
-    try {
-        const res = await fetch(url, {
-            method: "POST",
-            headers: {
-                Authorization: `Bearer ${token}`
-            },
-            body: formData
-        });
-    
-        const data = await res.json();
-    
-        if (!data.success) {
-            alert("Error uploading listing");
-    
-            btn.disabled = false;
-            btn.innerText = 'Publish Listing';
-            return;
-        }
-    
-        switchView("success");
+    const res = await fetch(url, {
+        method: "POST",
+        headers: {
+            Authorization: `Bearer ${token}`
+        },
+        body: formData
+    });
 
-    } catch (err) {
-        alert("Something went wrong!");
+    const data = await res.json();
 
-        btn.disabled = false;
-        btn.innerText = 'Publish Listing';
+    if (!data.success) {
+        alert("Error uploading listing");
+        return;
     }
+
+    switchView("success");
 }
 
 
@@ -135,6 +120,3 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
-
-
-

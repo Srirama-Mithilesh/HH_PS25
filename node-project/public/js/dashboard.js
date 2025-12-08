@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('search-btn')?.addEventListener('click', handleSearch);
 });
 function escapeHtml(str) {
-  return String(str)
+  return String(str)  
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
@@ -24,10 +24,12 @@ async function displayPopularDestinations() {
     // Sort by rating desc
     data.sort((a, b) => b.rating - a.rating);
 
+
     const cardWrapper = document.createElement('div');
     cardWrapper.className = 'cards';
     cardWrapper.innerHTML = "";
-    data.forEach((property) => {
+    const initialCount = 6;
+    data.forEach((property,index) => {
       const card = document.createElement("div");
 
       card.innerHTML = `
@@ -39,6 +41,12 @@ async function displayPopularDestinations() {
         </div>
       `;
 
+      // Hide cards after first 6
+      /*if (index >= initialCount) {
+        card.style.display = "none";
+        card.classList.add("extra-card");
+      }*/
+
       card.addEventListener('click', () => {
         window.location.href = `destinations.html?details=${encodeURIComponent(
           property.city
@@ -48,7 +56,79 @@ async function displayPopularDestinations() {
       cardWrapper.appendChild(card);
 
     });
+    
     container.appendChild(cardWrapper);
+
+    // Add the glassy fade dynamically
+    cardWrapper.classList.add('cards'); // already added, safe
+
+    // Function to update fade
+    function updateScrollableFade(wrapper) {
+      if (wrapper.scrollWidth > wrapper.clientWidth) {
+        wrapper.classList.add('scrollable');
+      } else {
+        wrapper.classList.remove('scrollable');
+      }
+    }
+
+    // Initial check
+    updateScrollableFade(cardWrapper);
+
+    // Optional: update on window resize
+    window.addEventListener('resize', () => updateScrollableFade(cardWrapper));
+    
+    // Scroll functionality for left/right buttons
+    const scrollLeftBtn = container.querySelector('.scroll-left');
+    const scrollRightBtn = container.querySelector('.scroll-right');
+
+    // Create scroll buttons dynamically
+    scrollLeftBtn.className = 'scroll-left';
+    scrollLeftBtn.innerHTML = '&#8249;'; // left arrow
+
+    scrollRightBtn.className = 'scroll-right';
+    scrollRightBtn.innerHTML = '&#8250;'; // right arrow
+
+    container.appendChild(scrollLeftBtn);
+    container.appendChild(scrollRightBtn);
+
+    scrollLeftBtn?.addEventListener('click', () => {
+      cardWrapper.scrollBy({ left: -300, behavior: 'smooth' });
+    });
+
+    scrollRightBtn?.addEventListener('click', () => {
+      cardWrapper.scrollBy({ left: 300, behavior: 'smooth' });
+    });
+    // Only add "See More" if there are more than initialCount
+    // Only add toggle button if there are more than initialCount
+/*if (data.length > initialCount) {
+  const toggleBtn = document.createElement("button");
+  toggleBtn.className = "see-more-btn";
+  toggleBtn.innerHTML = 'See More <i class="fa-solid fa-chevron-down"></i>';
+  toggleBtn.style.marginTop = "1rem";
+
+  toggleBtn.addEventListener("click", () => {
+    const hiddenCards = cardWrapper.querySelectorAll(".extra-card");
+    const isExpanded = toggleBtn.classList.contains("expanded");
+
+    // Toggle visibility of extra cards
+    hiddenCards.forEach(card => {
+      card.style.display = isExpanded ? "none" : "block";
+    });
+
+    // Toggle expanded class
+    toggleBtn.classList.toggle("expanded");
+
+    // Update button text and icon
+    if (toggleBtn.classList.contains("expanded")) {
+      toggleBtn.innerHTML = 'See Less <i class="fa-solid fa-chevron-down"></i>';
+    } else {
+      toggleBtn.innerHTML = 'See More <i class="fa-solid fa-chevron-down"></i>';
+    }
+  });
+
+  container.appendChild(toggleBtn);
+}*/
+
   } catch (err) {
     console.error('Error loading popular destinations:', err);
   }

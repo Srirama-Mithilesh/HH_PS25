@@ -17,9 +17,13 @@
     <div class="nav-links" id="auth-area">
       <!-- Default guest state -->
       <a href="login.html" id="List">List your property</a>
-      <button class="login-btn" onclick="window.location.href='login.html'">
+
+      <!-- <button class="login-btn" onclick="window.location.href='login.html'">
         Log in / Sign up
-      </button>
+      </button> -->
+
+      <button class="login-btn" onclick="redirectToLogin()">Log in / Sign up</button>
+
     </div>
   </nav>
   
@@ -27,10 +31,64 @@
 
   </section>
   <section class="results" id="results-section">
-    <h2>Available Rooms</h2>
+
+    <!-- commented this so that available rooms is in div -->
+    <!-- <h2>Available Rooms</h2> -->
+
+
+     <div class="rooms-header">
+      <h2>Available Rooms</h2>
+      <!-- <button id="bookRoomBtn" class="book-room-btn">Book Your Room</button> -->
+      <button id="bookRoomBtn" class="book-room-btn" onclick="redirectToLogin()">
+        Book Your Room
+      </button>
+
+    </div>
+
     <div class="results-grid" id="results-grid"></div>
   </section>
+
+  <div id="reviewModal" class="modal" style="display:none;">
+    <div class="modal-content">
+      <span id="closeReviewModal" class="close">&times;</span>
+      <h3>Leave a Review</h3>
+
+      <label>Rating:</label>
+      <select id="ratingInput">
+        <option value="1">1 ★</option>
+        <option value="2">2 ★</option>
+        <option value="3">3 ★</option>
+        <option value="4">4 ★</option>
+        <option value="5">5 ★</option>
+      </select>
+
+      <label>Review:</label>
+      <textarea id="reviewInput" placeholder="Write your review..."></textarea>
+
+      <button id="submitReviewModalBtn">Submit Review</button>
+    </div>
+  </div>
+
+  <div id="notification" style="
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #4caf50;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 6px;
+    display: none;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    align-items: center;
+    gap: 8px;
+    font-weight: 500;">
+    <span id="notif-tick">✔</span>
+    <span>Review submitted!</span>
+  </div>
+
+
   <script src="./js/proscript.js"></script>
-  <script src="/js/navbar.js"></script>
+  <script src="./js/navbar.js"></script>
+  <script src="./js/auth-redirect.js"></script>
 </body>
 </html>

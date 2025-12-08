@@ -5,7 +5,8 @@ import {
   signupController,
   loginController,
   profileController,
-  updateProfileController
+  updateProfileController,
+  isAdminController
 } from '../controllers/auth.controller.js';
 
 import { authenticateToken } from "../middleware/auth.middleware.js";
@@ -19,5 +20,6 @@ router.post('/login', loginController);
 // Protected routes
 router.get('/profile', authenticateToken, profileController);
 router.put('/updateProfile', authenticateToken, updateProfileController);
+router.get('/is-admin', authenticateToken, isAdminController);
 
 export default router;

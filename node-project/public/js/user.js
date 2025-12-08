@@ -1,3 +1,5 @@
+// public/js/user.js
+
 document.addEventListener("DOMContentLoaded", async () => {
     const userInfo = document.getElementById("user-info");
     const token = localStorage.getItem("token");
@@ -43,6 +45,11 @@ document.addEventListener("DOMContentLoaded", async () => {
             document.getElementById("edit-email").value = email;
         });
 
+        // ===== CLOSE EDIT FORM =====
+        document.getElementById("cancelEditBtn").addEventListener("click", () => {
+            document.getElementById("edit-form").style.display = "none";
+        });
+
         // ===== SAVE PROFILE =====
         document.getElementById("saveProfileBtn").addEventListener("click", async () => {
             const updatedName = document.getElementById("edit-name").value.trim();
@@ -83,7 +90,47 @@ document.addEventListener("DOMContentLoaded", async () => {
             }
         });
 
+        // ===== FETCH USER BOOKINGS (FIXED: Added Authorization header) =====
+        const bookingsRes = await fetch("/api/user/bookings", {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+        if (!bookingsRes.ok) {
+            console.error("Failed to load bookings:", await bookingsRes.text());
+            return;
+        }
+
+        const bookingData = await bookingsRes.json();
+
+
+        const section = document.getElementById("section");
+
+        bookingData.bookings?.forEach(element => {
+            const div = document.createElement("div");
+            div.className = "booking-card";
+            div.innerHTML = `
+                <div class="info-grid">
+                    <div><i class="fa-solid fa-hotel"></i> Hotel:</div>
+                    <div>${element.hotel}</div>
+
+                    <div><i class="fa-solid fa-calendar"></i> Stay:</div>
+                    <div>${element.check_in} - ${element.check_out}</div>
+
+                    <div><i class="fa-solid fa-users"></i> Guests:</div>
+                    <div>${element.max_guests}</div>
+
+                    <div><i class="fa-solid fa-tags"></i> Price:</div>
+                    <div>₹${element.total_price}</div>
+
+                    <div><i class="fa-solid fa-check"></i> Status:</div>
+                    <div>${element.status}</div>
+                </div>
+            `;
+            section.appendChild(div);
+        });
+
     } catch (err) {
-        console.error("Error fetching user profile:", err);
+        console.error("Error in fetching details", err);
     }
 });

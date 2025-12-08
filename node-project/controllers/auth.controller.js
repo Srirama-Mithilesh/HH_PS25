@@ -130,3 +130,46 @@ export async function updateProfileController(req, res) {
     return res.status(500).json({ error: err.message });
   }
 }
+
+// GET /api/is-admin
+export async function isAdminController(req, res) {
+  try {
+    // Always read email fresh from Supabase instead of req.user
+    const token = req.headers.authorization?.replace("Bearer ", "");
+
+    const { data: authData, error: authError } = await supabase.auth.getUser(token);
+
+    if (authError || !authData?.user) {
+      console.log("AUTH ERROR:", authError);
+      return res.json({ isAdmin: false });
+    }
+
+    let userEmail = authData.user.email;
+    if (!userEmail) {
+      return res.json({ isAdmin: false });
+    }
+
+    userEmail = userEmail.trim().toLowerCase();
+
+    // Admin lookup
+    const { data, error } = await supabase
+      .from('admin')
+      .select('email')
+      .eq('email', userEmail)
+      .single();
+
+    if (error && error.code !== 'PGRST116') {
+      console.log("Supabase admin lookup error:", error);
+    }
+
+    // console.log("ADMIN CHECK DATA:", data);
+
+    const isAdmin = !!data;
+
+    return res.json({ isAdmin });
+
+  } catch (err) {
+    console.error("isAdminController error:", err);
+    return res.status(500).json({ error: "Server error" });
+  }
+}
