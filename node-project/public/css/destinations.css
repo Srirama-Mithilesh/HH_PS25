@@ -59,63 +59,87 @@ body::after {
 .hero {
     position: relative;
     width: 100%;
-    height: 60vh;
+    height: 100vh; /* full screen on load */
     min-height: 420px;
     overflow: hidden;
+
     display: flex;
-    align-items: center; /* CENTER vertically */
+    align-items: center;
     justify-content: center;
-    padding-bottom: 0; /* remove bottom push */
+
+    transition: height 300ms cubic-bezier(.2,.9,.2,1);
+    will-change: height;
 }
 
+/* HERO BLOB */
 .hero::before {
-    width: 340px;
-    height: 340px;
-    filter: blur(100px);
+    content: "";
+    position: absolute;
+    width: 280px;       /* smaller blob */
+    height: 280px;
+    background: var(--blob-purple);
+    top: -100px;
+    left: 50%;
+    transform: translateX(-50%);
+    filter: blur(90px);
     opacity: 0.45;
+
+    animation: heroBlob 20s infinite alternate ease-in-out;
+    z-index: 0;
 }
 
+@keyframes heroBlob {
+    0% { transform: translateX(-50%) translateY(0) scale(1); }
+    100% { transform: translateX(-50%) translateY(30px) scale(1.15); }
+}
 
+/* HERO BACKGROUND IMAGE */
 .hero-bg-img {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  animation: heroZoom 20s ease-in-out infinite alternate;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+
+    transition: transform 300ms cubic-bezier(.2,.9,.2,1);
+    will-change: transform;
 }
 
-@keyframes heroZoom {
-  from { transform: scale(1); }
-  to { transform: scale(1.07); }
-}
-
+/* GRADIENT OVERLAY */
 .hero-overlay {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.85));
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.2),
+        rgba(0, 0, 0, 0.85)
+    );
+    transition: opacity 300ms linear;
 }
 
+/* HERO TEXT */
 .hero-text {
     position: relative;
     z-index: 3;
     text-align: center;
     color: var(--white);
-    margin-top: -60px; /* pushes content UP */
+
+    transition: transform 300ms cubic-bezier(.2,.9,.2,1);
+    will-change: transform;
 }
 
+/* HERO HEADING (SCROLL-SHRINK FRIENDLY) */
 .hero-text h1 {
-  color: white;
-  font-size: 6.7rem;
-  font-weight: 800;
-  text-shadow: 0 5px 20px rgba(0,0,0,0.5);
+    color: white;
+    font-size: 5.2rem; /* BIG size at top (you can increase this) */
+    font-weight: 800;
+    line-height: 1.05;
+    text-shadow: 0 5px 20px rgba(0,0,0,0.5);
 
-  /* NEW — makes text look taller */
-  line-height: 1.1;
-  font-stretch: ultra-expanded; /* increases vertical character height subtly */
-  transform: scaleY(1.15);
+    transform-origin: center center; 
 }
 
+/* BADGE */
 .location-badge {
   display: inline-block;
   background: rgba(255, 255, 255, 0.22);
@@ -127,6 +151,7 @@ body::after {
   text-transform: uppercase;
   letter-spacing: 1.5px;
 }
+
 
 /* ================= ABOUT ================= */
 .about {
