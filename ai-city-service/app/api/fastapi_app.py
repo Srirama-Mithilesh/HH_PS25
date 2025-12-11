@@ -1,5 +1,6 @@
 from fastapi import FastAPI, Query
 from app.workers.celery_app import celery_app
+import app.workers.tasks
 
 app = FastAPI()
 

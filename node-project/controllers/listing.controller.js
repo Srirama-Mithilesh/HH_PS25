@@ -1,9 +1,9 @@
 // controllers/listing.controller.js
 import { supabase } from "../config/supabase.js";
 
-// ------------------------------
-// Helper: Upload file to Supabase Storage
-// ------------------------------
+/**
+ * Helper: Upload file to Supabase Storage
+ */
 async function uploadToSupabase(file, bucket) {
     const fileName = `${Date.now()}-${file.originalname}`;
 
@@ -22,22 +22,19 @@ async function uploadToSupabase(file, bucket) {
     return publicUrl;
 }
 
-
-// ------------------------------
-// Promote user to admin table if not exists
-// ------------------------------
+/**
+ * Promote user to admin table if not exists
+ */
 async function promoteUserToAdmin(req) {
     const email = req.userEmail;
     const name = req.userName;
 
-    // Check if already admin
     const { data: existing } = await supabase
         .from("admin")
         .select("id")
         .eq("email", email)
         .maybeSingle();
 
-    // Insert if new
     if (!existing) {
         await supabase.from("admin").insert([
             {
@@ -48,15 +45,56 @@ async function promoteUserToAdmin(req) {
     }
 }
 
-// ------------------------------
-// CASUAL LISTING
-// ------------------------------
+/**
+ * Fire-and-forget: Ask FastAPI to generate destination data for a city.
+ * Non-blocking: we do not await the response (but we catch errors so they don't crash).
+ */
+function triggerCityGeneration(city) {
+    try {
+        const url = `http://fastapi:8000/generate?city=${encodeURIComponent(city)}`;
+        // Fire-and-forget; still attach catch to avoid unhandled rejection
+        fetch(url, { method: "POST" })
+            .then(res => {
+                if (!res.ok) {
+                    console.warn(`City generation request returned status ${res.status}`);
+                }
+            })
+            .catch(err => {
+                console.warn("Failed to call city generation service:", err.message || err);
+            });
+    } catch (err) {
+        console.warn("Error while triggering city generation:", err.message || err);
+    }
+}
+
+/**
+ * CASUAL LISTING
+ */
 export async function createCasualListing(req, res) {
     console.log("FILES:", req.files);
     try {
         const { title, type, price, guests, city, address } = req.body;
-        // Upload all photos
-        // First upload all images to rooms-images bucket
+
+        // --- Check destinations table first ---
+        try {
+            const { data: existingDest } = await supabase
+                .from("destinations")
+                .select("id")
+                .ilike("city", city)    // case-insensitive check
+                .limit(1);
+
+            if (!existingDest || existingDest.length === 0) {
+                console.log("City not found in destinations. Triggering AI generation (non-blocking).");
+                triggerCityGeneration(city);
+            } else {
+                console.log("City already exists in destinations, skipping generation.");
+            }
+        } catch (dbCheckErr) {
+            // Do not block property creation if the check fails — log and proceed.
+            console.warn("Warning: failed to check destinations table:", dbCheckErr.message || dbCheckErr);
+        }
+
+        // Upload all photos to rooms-images bucket
         const photoUrls = [];
 
         for (const file of req.files) {
@@ -66,7 +104,6 @@ export async function createCasualListing(req, res) {
 
         // Hotel image = first photo but stored in hotel-image
         const hotelImageUrl = await uploadToSupabase(req.files[0], "hotel-image");
-
 
         // Insert hotel
         const { data: hotelData, error: hotelErr } = await supabase
@@ -117,12 +154,31 @@ export async function createCasualListing(req, res) {
     }
 }
 
-// ------------------------------
-// PROFESSIONAL LISTING
-// ------------------------------
+/**
+ * PROFESSIONAL LISTING
+ */
 export async function createProfessionalListing(req, res) {
     try {
         const { businessName, address, city } = req.body;
+
+        // --- Check destinations table first ---
+        try {
+            const { data: existingDest } = await supabase
+                .from("destinations")
+                .select("id")
+                .ilike("city", city)
+                .limit(1);
+
+            if (!existingDest || existingDest.length === 0) {
+                console.log("City not found in destinations. Triggering AI generation (non-blocking).");
+                triggerCityGeneration(city);
+            } else {
+                console.log("City already exists in destinations, skipping generation.");
+            }
+        } catch (dbCheckErr) {
+            // log and proceed
+            console.warn("Warning: failed to check destinations table:", dbCheckErr.message || dbCheckErr);
+        }
 
         // Upload images
         const photoUrls = [];
