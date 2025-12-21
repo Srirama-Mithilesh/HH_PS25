@@ -63,8 +63,7 @@ AI is **not a core dependency** and does not affect normal application flow.
                       │ AI Agent     │
                       │ (On-Demand)  │
                       └─────────────┘
-
-```text
+```
 
 ## Role of AI Agent
 
