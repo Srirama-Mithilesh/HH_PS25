@@ -1,4 +1,4 @@
-# 🌆 Horizon Haven – Smart Travel & Property Discovery Platform
+# Horizon Haven – Smart Travel & Property Discovery Platform
 
 ![Node.js](https://img.shields.io/badge/Node.js-18.x-green)
 ![Express](https://img.shields.io/badge/Express.js-Backend-lightgrey)
@@ -12,17 +12,23 @@ AI is used only as a **supporting feature** to generate missing city content and
 
 ---
 
-## 📌 Problem Statement
+## Problem Statement
 
-Travel and property platforms often face:
-- Incomplete city or destination data
-- Manual effort to onboard new locations
-- Repeated database queries causing performance issues
-- Difficulty scaling content efficiently
+This project outlines the design and development of **Horizon Haven**, a sophisticated, cloud-ready hotel and room booking platform. The primary objective is to build a seamless, responsive, and highly available web application that enhances the overall user experience for both guests and hotel administrators.
+
+By integrating a modern **MERN technology stack** with robust backend services such as **Redis**, **Celery**, and advanced monitoring tools, the platform addresses critical challenges in the hospitality industry, including:
+
+- Real-time room availability management  
+- Secure and reliable transaction handling  
+- Performance bottlenecks caused by high traffic  
+- Efficient background task processing  
+
+Horizon Haven aims to provide a scalable, high-performance solution that ensures reliability, responsiveness, and operational efficiency in modern hotel booking systems.
+
 
 ---
 
-## 🎯 Solution Overview
+## Solution Overview
 
 Horizon Haven addresses these problems by:
 - Structuring city, hotel, and booking data efficiently
@@ -34,7 +40,7 @@ AI is **not a core dependency** and does not affect normal application flow.
 
 ---
 
-## 🏗️ System Architecture
+## System Architecture
 
 ```text
 ┌──────────────┐
