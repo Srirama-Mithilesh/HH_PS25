@@ -123,7 +123,13 @@ The agent:
 
 ## How to Run the Project
 
-### 1️Clone the repository
+### Clone the repository
 ```bash
-git clone <[repository-url](https://github.com/Srirama-Mithilesh/HH_PS25.git)>
+git clone https://github.com/Srirama-Mithilesh/HH_PS25.git
 cd horizon-haven
+
+```
+### Run using Docker
+```bash
+docker-compose up --build
+```
