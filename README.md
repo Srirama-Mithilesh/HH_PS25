@@ -125,5 +125,5 @@ The agent:
 
 ### 1️Clone the repository
 ```bash
-git clone <repository-url>
+git clone <[repository-url](https://github.com/Srirama-Mithilesh/HH_PS25.git)>
 cd horizon-haven
